@@ -17,7 +17,7 @@ class ContatosController extends Controller
     public function index()
     {
         $contatos = Contato::where('user_id', auth()->id())->get();
-        return view('contatos.index',compact('contatos'));
+        return view('contatos.index', compact('contatos'));
     }
 
 
@@ -34,7 +34,7 @@ class ContatosController extends Controller
         Contato::create($contatos);
 
         return redirect()->route('contatos.index')
-            ->with('success','Contato criado com sucesso! :)');
+            ->with('success', 'Contato criado com sucesso! :)');
     }
 
 
@@ -42,7 +42,7 @@ class ContatosController extends Controller
     {
         $contato = Contato::find($id);
         return view('contatos.show')
-            ->with('contato',$contato);
+            ->with('contato', $contato);
     }
 
     public function edit($id)
@@ -58,43 +58,43 @@ class ContatosController extends Controller
         $contatos = $request->all();
         $contatos['user_id'] = auth()->id();
 
-        
+
         $contato = Contato::find($id);
         $contato->update($contatos);
 
         return redirect()->route('contatos.index')
-            ->with('success','Contato editado com sucesso! :)');
+            ->with('success', 'Contato editado com sucesso! :)');
     }
 
-    
+
     public function destroy($id)
     {
         $contato = Contato::find($id)->delete();
         return redirect()->route('contatos.index')
-            ->with('warning','Contato excluído com sucesso!');
+            ->with('warning', 'Contato excluído com sucesso!');
     }
 
-    function action(Request $request)
+    public function action(Request $request)
     {
         $orderBy = $request->get('order');
         switch ($orderBy) {
-            case 1: 
+            case 1:
                     $order = 'nome';
                     $ascOrDesc = 'asc';
-                    break;
+                break;
             case 2:
                     $order = 'nome';
-                    $ascOrDesc = 'desc'; 
-                    break;
+                    $ascOrDesc = 'desc';
+                break;
             case 3:
                     $order = 'created_at';
-                    $ascOrDesc = 'asc'; 
-                    break;
+                    $ascOrDesc = 'asc';
+                break;
             case 4:
                     $order = 'created_at';
-                    $ascOrDesc = 'desc'; 
-                    break;
-            default: 
+                    $ascOrDesc = 'desc';
+                break;
+            default:
                     $order = 'nome';
                     $ascOrDesc = 'asc';
         }
@@ -103,10 +103,10 @@ class ContatosController extends Controller
             $query = $request->get('query');
             if ($query != '') {
                 $contatos = Contato::where('user_id', auth()->id())
-                    ->where(function($q) use ($query) {
-                        $q->where('nome', 'like', '%'.$query.'%')
-                        ->orWhere('tel1', 'like', '%'.$query.'%')
-                        ->orWhere('email', 'like', '%'.$query.'%');
+                    ->where(function ($q) use ($query) {
+                        $q->where('nome', 'like', '%' . $query . '%')
+                        ->orWhere('tel1', 'like', '%' . $query . '%')
+                        ->orWhere('email', 'like', '%' . $query . '%');
                     })
                     ->orderBy($order, $ascOrDesc)
                     ->get();
@@ -116,10 +116,10 @@ class ContatosController extends Controller
                     ->get();
             }
             $total_row = $contatos->count();
-  
+
             $data = [
                 'table_data'  => view(
-                    'partials.rowIndex', 
+                    'partials.rowIndex',
                     compact('total_row', 'contatos')
                 )->render(),
                 'total_data'  => $total_row
@@ -127,5 +127,4 @@ class ContatosController extends Controller
         }
         echo json_encode($data);
     }
-
 }
