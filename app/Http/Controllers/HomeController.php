@@ -33,16 +33,17 @@ class HomeController extends Controller
         return view('auth.changepassword');
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(Request $request)
+    {
         if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
             // The passwords matches
             return redirect()->back()
-                ->with('error','Senha incorreta. Tente outra vez!');
+                ->with('error', 'Senha incorreta. Tente outra vez!');
         }
-        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
+        if (strcmp($request->get('current-password'), $request->get('new-password')) == 0) {
             //Current password and new password are same
             return redirect()->back()
-                ->with('error','A senha continua a mesma. Tente outra vez!');
+                ->with('error', 'A senha continua a mesma. Tente outra vez!');
         }
         $validatedData = $request->validate([
             'current-password' => 'required',
@@ -52,6 +53,6 @@ class HomeController extends Controller
         $user = Auth::user();
         $user->password = bcrypt($request->get('new-password'));
         $user->save();
-        return redirect()->back()->with("success","Senha Alterada com sucesso! :)");
+        return redirect()->back()->with("success", "Senha Alterada com sucesso! :)");
     }
 }

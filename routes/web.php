@@ -7,8 +7,8 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/changePassword','HomeController@showChangePasswordForm');
-Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+Route::get('/changePassword', 'HomeController@showChangePasswordForm');
+Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
 
 Route::resource('contatos', 'ContatosController');

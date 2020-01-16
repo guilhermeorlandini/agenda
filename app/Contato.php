@@ -17,7 +17,6 @@ class Contato extends Model
         'cep2',
         'cidade1',
         'cidade2',
-        'user_id'      
+        'user_id'
     ];
-    
 }

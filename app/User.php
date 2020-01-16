@@ -6,7 +6,6 @@ use App\Notifications\NewUserRegister;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-
 class User extends Authenticatable
 {
     use Notifiable;
@@ -14,10 +13,10 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        self::created(function($model) {
+        self::created(function ($model) {
             $model->notify(new NewUserRegister());
         });
-    }    
+    }
     /**
      * The attributes that are mass assignable.
      *

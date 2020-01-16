@@ -13,7 +13,7 @@ class ImportacaoController extends Controller
     {
         return view('importacao.importacao');
     }
-    
+
     public function importacaoVExpenses()
     {
         return view('importacao.vexpenses.importacaoVExpenses');
@@ -27,11 +27,11 @@ class ImportacaoController extends Controller
 
         if (isset($_POST['checkbox'])) {
             $checkboxs = $_POST['checkbox'];
-            foreach ($checkboxs as $checkbox) {  
+            foreach ($checkboxs as $checkbox) {
                 if (
                     !Contato::where([
-                        'nome' => $nome[$checkbox], 
-                        'user_id'=> auth()->id()
+                        'nome' => $nome[$checkbox],
+                        'user_id' => auth()->id()
                     ])->first()
                 ) {
                     $contatos = [
@@ -49,14 +49,14 @@ class ImportacaoController extends Controller
             if (count($erro)) {
                 $erros = implode(', ' , $erro);
                 return back()
-                    ->with('danger',"Não foi possível prosseguir: $erros já existe(m) na agenda.");
+                    ->with('danger', "Não foi possível prosseguir: $erros já existe(m) na agenda.");
             } else {
                 return redirect()->route('contatos.index')
-                    ->with('success','Membro(s) Importado(s) com sucesso! :)');
+                    ->with('success', 'Membro(s) Importado(s) com sucesso! :)');
             }
         } else {
             return back()
-                ->with('warning','Você não selecionou nenhum membro :(');;
+                ->with('warning', 'Você não selecionou nenhum membro :(');
         }
     }
 }
